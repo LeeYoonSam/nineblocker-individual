@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NineBlockers - 개인 승점제</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>NineBlockers</h1>
+    <p class="subtitle">개인 승점제</p>
+    <nav id="year-tabs"></nav>
+  </header>
+
+  <main>
+    <section id="loading" class="loading">데이터를 불러오는 중...</section>
+
+    <section id="summary-section" class="hidden">
+      <h2>선수별 요약</h2>
+      <div id="summary-cards" class="card-grid"></div>
+    </section>
+
+    <section id="matrix-section" class="hidden">
+      <h2>출석 매트릭스</h2>
+      <div class="table-wrapper">
+        <table id="matrix-table"></table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a href="admin.html">관리자</a>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/sheets.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

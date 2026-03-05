@@ -1,0 +1,401 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #e65100;
+  --primary-dark: #bf360c;
+  --bg: #1a1a2e;
+  --bg-light: #16213e;
+  --card-bg: #0f3460;
+  --text: #e8e8e8;
+  --text-muted: #a0a0b0;
+  --success: #4caf50;
+  --error: #f44336;
+  --border: #2a2a4a;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Header */
+header {
+  background: var(--bg-light);
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 3px solid var(--primary);
+}
+
+header h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.2rem;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+/* Year Tabs */
+#year-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background: var(--border);
+  color: var(--text);
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.tab-btn:hover {
+  background: var(--primary-dark);
+}
+
+.tab-btn.active {
+  background: var(--primary);
+  font-weight: bold;
+}
+
+/* Main */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-muted);
+}
+
+/* Summary Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-left: 4px solid var(--primary);
+}
+
+.card .rank {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.card .name {
+  font-size: 1rem;
+}
+
+.card .number {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.card .score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.card .attend {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* Matrix Table */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+thead th {
+  background: var(--bg-light);
+  position: sticky;
+  top: 0;
+  padding: 0.5rem 0.4rem;
+  border-bottom: 2px solid var(--primary);
+  text-align: center;
+}
+
+tbody td {
+  padding: 0.4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.name-cell {
+  text-align: left;
+  font-weight: bold;
+  position: sticky;
+  left: 0;
+  background: var(--bg);
+  z-index: 1;
+}
+
+.number-cell {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.player-number {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-right: 0.3rem;
+}
+
+.present {
+  color: var(--success);
+}
+
+.absent {
+  color: var(--text-muted);
+}
+
+.total {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-content {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 360px;
+  border: 1px solid var(--border);
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 0.6rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.modal-content button:hover {
+  background: var(--primary-dark);
+}
+
+/* Admin Form */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.form-group select,
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.player-input {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.player-input label {
+  flex: 1;
+  margin: 0;
+  font-weight: bold;
+}
+
+.player-input input {
+  width: 60px;
+  padding: 0.3rem;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.btn-absent {
+  padding: 0.3rem 0.6rem;
+  background: var(--border);
+  color: var(--text-muted);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.btn-absent:hover {
+  background: var(--error);
+  color: white;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Admin header */
+#admin-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#logout-btn {
+  padding: 0.3rem 0.8rem;
+  background: var(--border);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#logout-btn:hover {
+  background: var(--error);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+
+footer a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Status Messages */
+.success {
+  color: var(--success);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.error {
+  color: var(--error);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Utility */
+.hidden {
+  display: none !important;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  header h1 {
+    font-size: 1.1rem;
+  }
+
+  table {
+    font-size: 0.75rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+}
