@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1772676933263,
+  "lastScanned": 1772771187688,
   "projectRoot": "/Users/leeyoonsam/Documents/nineblocker-individual",
   "techStack": {
     "languages": [],
@@ -24,102 +24,53 @@
   "structure": {
     "isMonorepo": false,
     "workspaces": [],
-    "mainDirectories": [],
+    "mainDirectories": [
+      "docs",
+      "scripts",
+      "src"
+    ],
     "gitBranches": null
   },
   "customNotes": [],
-  "directoryMap": {},
-  "hotPaths": [
-    {
-      "path": "src/css/style.css",
-      "accessCount": 7,
-      "lastAccessed": 1772759466652,
-      "type": "file"
+  "directoryMap": {
+    "apps-script": {
+      "path": "apps-script",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1772771187683,
+      "keyFiles": [
+        "Code.gs"
+      ]
     },
-    {
-      "path": "src/js/sheets.js",
-      "accessCount": 6,
-      "lastAccessed": 1772759459057,
-      "type": "file"
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 1,
+      "lastAccessed": 1772771187683,
+      "keyFiles": [
+        "prerequisite-guide.md"
+      ]
     },
-    {
-      "path": "src/admin.html",
-      "accessCount": 5,
-      "lastAccessed": 1772759455422,
-      "type": "file"
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1772771187684,
+      "keyFiles": [
+        "inject-env.sh"
+      ]
     },
-    {
-      "path": "src/js/app.js",
-      "accessCount": 5,
-      "lastAccessed": 1772759459683,
-      "type": "file"
-    },
-    {
-      "path": "src/index.html",
-      "accessCount": 4,
-      "lastAccessed": 1772688252533,
-      "type": "file"
-    },
-    {
-      "path": "apps-script/Code.gs",
-      "accessCount": 4,
-      "lastAccessed": 1772759455840,
-      "type": "file"
-    },
-    {
-      "path": "src/js/config.js",
-      "accessCount": 4,
-      "lastAccessed": 1772759458900,
-      "type": "file"
-    },
-    {
-      "path": "scripts/inject-env.sh",
-      "accessCount": 3,
-      "lastAccessed": 1772686943074,
-      "type": "file"
-    },
-    {
-      "path": "docs/prerequisite-guide.md",
-      "accessCount": 2,
-      "lastAccessed": 1772759451477,
-      "type": "file"
-    },
-    {
-      "path": "src/js/auth.js",
-      "accessCount": 2,
-      "lastAccessed": 1772759459273,
-      "type": "file"
-    },
-    {
-      "path": "src/js/appsscript.js",
-      "accessCount": 2,
-      "lastAccessed": 1772759459500,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 1,
-      "lastAccessed": 1772681418593,
-      "type": "directory"
-    },
-    {
-      "path": "basketball-attendance-plan.md",
-      "accessCount": 1,
-      "lastAccessed": 1772759451257,
-      "type": "file"
-    },
-    {
-      "path": ".claude/settings.json",
-      "accessCount": 1,
-      "lastAccessed": 1772761130010,
-      "type": "file"
-    },
-    {
-      "path": ".claude/settings.local.json",
-      "accessCount": 1,
-      "lastAccessed": 1772761130062,
-      "type": "file"
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 2,
+      "lastAccessed": 1772771187684,
+      "keyFiles": [
+        "admin.html",
+        "index.html"
+      ]
     }
-  ],
+  },
+  "hotPaths": [],
   "userDirectives": []
 }
