@@ -11,12 +11,28 @@ document.addEventListener('DOMContentLoaded', () => {
 // 조회 페이지 (index.html)
 // =====================
 
+function getLatestSheet(tabs) {
+  return tabs.reduce((latest, tab) => {
+    if (!latest) return tab;
+    const [aY, aM] = latest.split('-').map(Number);
+    const [bY, bM] = tab.split('-').map(Number);
+    if (isNaN(bY) || isNaN(bM)) return latest;
+    if (isNaN(aY) || isNaN(aM)) return tab;
+    return (bY > aY || (bY === aY && bM > aM)) ? tab : latest;
+  }, null);
+}
+
 async function initIndexPage() {
+  const saved = localStorage.getItem('selectedSheet');
+  if (saved) {
+    // 비동기 fetch 전 즉시 표시하여 깜빡임 방지; dropdown 미생성 상태라 updateSelectorState() 사용 불가
+    document.getElementById('sheet-selector-btn').textContent = saved + ' ▾';
+  }
+
   const tabs = await fetchSheetNames();
   renderSheetSelector(tabs);
   if (tabs.length > 0) {
-    const saved = localStorage.getItem('selectedSheet');
-    const target = saved && tabs.includes(saved) ? saved : tabs[tabs.length - 1];
+    const target = saved && tabs.includes(saved) ? saved : (getLatestSheet(tabs) || tabs[0]);
     loadSheet(target);
   }
 }
@@ -279,7 +295,7 @@ async function loadAdminData() {
   ).join('');
 
   if (sheetNames.length > 0) {
-    select.value = sheetNames[sheetNames.length - 1];
+    select.value = getLatestSheet(sheetNames) || sheetNames[0];
     await handleSheetChange();
   }
 }

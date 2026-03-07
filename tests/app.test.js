@@ -389,6 +389,42 @@ describe('initIndexPage - 시트 선택 유지', () => {
     };
   });
 
+  it('저장된 시트가 있으면 fetchSheetNames 전에 버튼 텍스트 즉시 설정', async () => {
+    mockStorage.selectedSheet = '24-01';
+    const btn = document.getElementById('sheet-selector-btn');
+    expect(btn.textContent).toBe('');
+
+    globalThis.fetchSheetNames = vi.fn().mockImplementation(() => {
+      // API 호출 시점에 이미 버튼 텍스트가 설정되어 있어야 함
+      expect(btn.textContent).toBe('24-01 ▾');
+      return Promise.resolve(['24-01', '25-01']);
+    });
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+
+    loadAppFunctions();
+    await initIndexPage();
+
+    expect(globalThis.fetchSheetNames).toHaveBeenCalled();
+  });
+
+  it('저장된 시트가 없으면 버튼 텍스트 변경 없음', async () => {
+    const btn = document.getElementById('sheet-selector-btn');
+    btn.textContent = '시트 선택 ▾';
+
+    globalThis.fetchSheetNames = vi.fn().mockImplementation(() => {
+      expect(btn.textContent).toBe('시트 선택 ▾');
+      return Promise.resolve(['25-01']);
+    });
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+
+    loadAppFunctions();
+    await initIndexPage();
+
+    expect(globalThis.fetchSheetNames).toHaveBeenCalled();
+  });
+
   it('저장된 시트가 탭 목록에 있으면 해당 시트 로드', async () => {
     globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
     globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
@@ -401,8 +437,8 @@ describe('initIndexPage - 시트 선택 유지', () => {
     expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2024');
   });
 
-  it('저장된 시트가 탭 목록에 없으면 마지막 시트 로드', async () => {
-    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
+  it('저장된 시트가 탭 목록에 없으면 최신 시트 로드', async () => {
+    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['25-01', '22-08', '24-06']);
     globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
     globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
     mockStorage.selectedSheet = '2023';
@@ -410,18 +446,18 @@ describe('initIndexPage - 시트 선택 유지', () => {
     loadAppFunctions();
     await initIndexPage();
 
-    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2025');
+    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('25-01');
   });
 
-  it('저장된 시트가 없으면 마지막 시트 로드', async () => {
-    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
+  it('저장된 시트가 없으면 최신 시트 로드', async () => {
+    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['22-08', '25-01', '24-06']);
     globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
     globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
 
     loadAppFunctions();
     await initIndexPage();
 
-    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2025');
+    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('25-01');
   });
 
   it('loadSheet 호출 시 localStorage에 시트 이름 저장', async () => {
@@ -432,6 +468,41 @@ describe('initIndexPage - 시트 선택 유지', () => {
     await loadSheet('2024');
 
     expect(mockStorage.selectedSheet).toBe('2024');
+  });
+});
+
+describe('getLatestSheet', () => {
+  beforeEach(() => {
+    setupGlobals();
+    loadAppFunctions();
+  });
+
+  it('정상 YY-MM 배열에서 최신 시트 반환', () => {
+    expect(getLatestSheet(['22-08', '24-06', '25-01'])).toBe('25-01');
+  });
+
+  it('비순차 배열에서도 최신 시트 반환', () => {
+    expect(getLatestSheet(['25-01', '22-08', '26-01', '24-06'])).toBe('26-01');
+  });
+
+  it('같은 연도 내 월 비교', () => {
+    expect(getLatestSheet(['25-01', '25-06', '25-03'])).toBe('25-06');
+  });
+
+  it('파싱 불가 이름 포함 시 유효한 시트 반환', () => {
+    expect(getLatestSheet(['summary', '24-06', '25-01'])).toBe('25-01');
+  });
+
+  it('모두 파싱 불가 시 첫 번째 요소 반환', () => {
+    expect(getLatestSheet(['summary', 'info'])).toBe('summary');
+  });
+
+  it('단일 요소 배열', () => {
+    expect(getLatestSheet(['25-01'])).toBe('25-01');
+  });
+
+  it('빈 배열 시 null 반환', () => {
+    expect(getLatestSheet([])).toBeNull();
   });
 });
 
