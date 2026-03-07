@@ -1,12 +1,26 @@
 const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID';
-const ADMIN_PASSWORD_HASH = 'SHA256_HASH_HERE';
 const DATE_COL_START = 4; // E열 = 0-based index 4
+
+function getAdminHash() {
+  return PropertiesService.getScriptProperties().getProperty('ADMIN_PASSWORD_HASH');
+}
+
+// Apps Script 에디터에서 수동 실행하여 해시 설정
+function setupAdminHash() {
+  const hash = 'YOUR_SHA256_HASH_HERE'; // 여기에 해시값 입력 후 실행
+  if (hash === 'YOUR_SHA256_HASH_HERE') {
+    throw new Error('hash 변수를 실제 SHA256 해시값으로 변경 후 실행하세요.');
+  }
+  PropertiesService.getScriptProperties().setProperty('ADMIN_PASSWORD_HASH', hash);
+  Logger.log('Admin hash가 설정되었습니다.');
+}
 
 function doPost(e) {
   try {
     const params = JSON.parse(e.postData.contents);
 
-    if (params.passwordHash !== ADMIN_PASSWORD_HASH) {
+    const adminHash = getAdminHash();
+    if (!adminHash || params.passwordHash !== adminHash) {
       return jsonResponse({ success: false, error: 'Unauthorized' });
     }
 

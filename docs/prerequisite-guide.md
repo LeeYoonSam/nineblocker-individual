@@ -48,13 +48,24 @@
 
 ```javascript
 const SPREADSHEET_ID = 'Step1에서_기록한_SHEET_ID';
-const ADMIN_PASSWORD_HASH = 'Step4에서_생성할_해시값';
+
+function getAdminHash() {
+  return PropertiesService.getScriptProperties().getProperty('ADMIN_PASSWORD_HASH');
+}
+
+// Apps Script 에디터에서 수동 실행하여 해시 설정
+function setupAdminHash() {
+  const hash = 'Step4에서_생성할_해시값'; // 여기에 해시값 입력 후 실행
+  PropertiesService.getScriptProperties().setProperty('ADMIN_PASSWORD_HASH', hash);
+  Logger.log('Admin hash가 설정되었습니다.');
+}
 
 function doPost(e) {
   try {
     const params = JSON.parse(e.postData.contents);
 
-    if (params.passwordHash !== ADMIN_PASSWORD_HASH) {
+    const adminHash = getAdminHash();
+    if (!adminHash || params.passwordHash !== adminHash) {
       return jsonResponse({ success: false, error: 'Unauthorized' });
     }
 
@@ -126,7 +137,8 @@ echo -n "mypassword123" | shasum -a 256
 ```
 
 - 출력에서 해시값만 복사 (공백과 `-` 제외)
-- **이 값을 Step 3의 Apps Script `ADMIN_PASSWORD_HASH`에도 설정**
+- **이 값을 Step 3의 Apps Script `setupAdminHash()` 함수의 hash 변수에 입력 후 실행하여 설정**
+- 또는 Apps Script 에디터 → **프로젝트 설정** → **스크립트 속성** → `ADMIN_PASSWORD_HASH` 키로 직접 추가 가능
 
 **기록할 값**: `ADMIN_HASH`
 
@@ -160,6 +172,7 @@ echo -n "mypassword123" | shasum -a 256
 - [ ] Google Sheets API가 활성화됨
 - [ ] API 키에 리퍼러 제한 + API 제한 설정됨
 - [ ] Apps Script가 "모든 사용자" 접근으로 배포됨
-- [ ] Apps Script 내 SPREADSHEET_ID, ADMIN_PASSWORD_HASH 설정됨
+- [ ] Apps Script 내 SPREADSHEET_ID 설정됨
+- [ ] Apps Script 내 `setupAdminHash()` 실행 또는 스크립트 속성에 ADMIN_PASSWORD_HASH 설정됨
 - [ ] GitHub Secrets 4개 등록 완료
 - [ ] GitHub Pages 활성화 (Source: GitHub Actions)
