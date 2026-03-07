@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // 조회 페이지 (index.html)
 // =====================
 
-let currentSheetName = '';
-
 async function initIndexPage() {
   const tabs = await fetchSheetNames();
   renderSheetSelector(tabs);
   if (tabs.length > 0) {
-    loadSheet(tabs[tabs.length - 1]);
+    const saved = localStorage.getItem('selectedSheet');
+    const target = saved && tabs.includes(saved) ? saved : tabs[tabs.length - 1];
+    loadSheet(target);
   }
 }
 
@@ -49,14 +49,13 @@ function renderSheetSelector(sheetNames) {
 function updateSelectorState(sheetName) {
   const btn = document.getElementById('sheet-selector-btn');
   btn.textContent = sheetName + ' ▾';
-  currentSheetName = sheetName;
-
   document.querySelectorAll('.sheet-dropdown-item').forEach(item => {
     item.classList.toggle('active', item.dataset.sheet === sheetName);
   });
 }
 
 async function loadSheet(sheetName) {
+  localStorage.setItem('selectedSheet', sheetName);
   const loading = document.getElementById('loading');
   const summarySection = document.getElementById('summary-section');
   const matrixSection = document.getElementById('matrix-section');

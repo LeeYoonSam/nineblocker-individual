@@ -375,6 +375,66 @@ function setupIndexDOM() {
   `;
 }
 
+describe('initIndexPage - 시트 선택 유지', () => {
+  let mockStorage;
+
+  beforeEach(() => {
+    setupIndexDOM();
+    setupGlobals();
+    mockStorage = {};
+    globalThis.localStorage = {
+      getItem: vi.fn(key => mockStorage[key] ?? null),
+      setItem: vi.fn((key, val) => { mockStorage[key] = String(val); }),
+      removeItem: vi.fn(key => { delete mockStorage[key]; }),
+    };
+  });
+
+  it('저장된 시트가 탭 목록에 있으면 해당 시트 로드', async () => {
+    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+    mockStorage.selectedSheet = '2024';
+
+    loadAppFunctions();
+    await initIndexPage();
+
+    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2024');
+  });
+
+  it('저장된 시트가 탭 목록에 없으면 마지막 시트 로드', async () => {
+    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+    mockStorage.selectedSheet = '2023';
+
+    loadAppFunctions();
+    await initIndexPage();
+
+    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2025');
+  });
+
+  it('저장된 시트가 없으면 마지막 시트 로드', async () => {
+    globalThis.fetchSheetNames = vi.fn().mockResolvedValue(['2024', '2025']);
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+
+    loadAppFunctions();
+    await initIndexPage();
+
+    expect(globalThis.fetchSheetData).toHaveBeenCalledWith('2025');
+  });
+
+  it('loadSheet 호출 시 localStorage에 시트 이름 저장', async () => {
+    globalThis.fetchSheetData = vi.fn().mockResolvedValue({});
+    globalThis.parseSheetData = vi.fn().mockReturnValue({ dates: [], players: [] });
+
+    loadAppFunctions();
+    await loadSheet('2024');
+
+    expect(mockStorage.selectedSheet).toBe('2024');
+  });
+});
+
 describe('assignRanks', () => {
   beforeEach(() => {
     setupGlobals();
