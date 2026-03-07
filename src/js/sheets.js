@@ -316,7 +316,7 @@ async function fetchSheetNames() {
     const url = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}`
       + `?key=${CONFIG.API_KEY}&fields=sheets.properties.title`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     return json.sheets.map(s => s.properties.title);
@@ -337,7 +337,7 @@ async function fetchSheetData(sheetName) {
       + `/values/${encodeURIComponent(sheetName)}`
       + `?key=${CONFIG.API_KEY}&valueRenderOption=FORMATTED_VALUE`;
 
-    const res = await fetch(url);
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     return json.values || [];
