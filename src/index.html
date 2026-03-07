@@ -10,28 +10,30 @@
   <header>
     <h1>NineBlockers</h1>
     <p class="subtitle">개인 승점제</p>
-    <nav id="year-tabs"></nav>
+    <a href="admin.html" class="header-nav-link">관리자</a>
+    <nav id="year-tabs">
+      <div class="sheet-selector">
+        <button id="sheet-selector-btn" class="sheet-selector-btn">시트 선택 ▾</button>
+        <div id="sheet-dropdown" class="sheet-dropdown hidden"></div>
+      </div>
+    </nav>
   </header>
 
   <main>
     <section id="loading" class="loading">데이터를 불러오는 중...</section>
 
     <section id="summary-section" class="hidden">
-      <h2>선수별 요약</h2>
+      <h2>상위 랭커</h2>
       <div id="summary-cards" class="card-grid"></div>
     </section>
 
     <section id="matrix-section" class="hidden">
-      <h2>출석 매트릭스</h2>
+      <h2>개인 기록</h2>
       <div class="table-wrapper">
         <table id="matrix-table"></table>
       </div>
     </section>
   </main>
-
-  <footer>
-    <a href="admin.html">관리자</a>
-  </footer>
 
   <script src="js/config.js"></script>
   <script src="js/sheets.js"></script>

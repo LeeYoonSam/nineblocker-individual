@@ -8,7 +8,7 @@
 </head>
 <body>
   <!-- 비밀번호 모달 -->
-  <div id="auth-modal" class="modal">
+  <div id="auth-modal" class="modal hidden">
     <div class="modal-content">
       <h2>관리자 인증</h2>
       <input type="password" id="password-input" placeholder="비밀번호 입력" autofocus>
@@ -21,7 +21,10 @@
   <div id="admin-panel" class="hidden">
     <header>
       <h1>NineBlockers 관리</h1>
-      <button id="logout-btn">로그아웃</button>
+      <div class="header-actions">
+        <a href="index.html" class="header-nav-link">조회 페이지</a>
+        <button id="logout-btn">로그아웃</button>
+      </div>
     </header>
 
     <main>
@@ -31,29 +34,35 @@
       </div>
 
       <div class="form-group">
+        <div class="mode-selector">
+          <label><input type="radio" name="entry-mode" value="new" checked> 새로운 기록 추가</label>
+          <label><input type="radio" name="entry-mode" value="edit"> 기존 기록 수정</label>
+        </div>
+      </div>
+
+      <div class="form-group" id="new-date-group">
+        <label for="date-input">날짜 입력</label>
+        <input type="date" id="date-input">
+      </div>
+
+      <div class="form-group hidden" id="edit-date-group">
         <label for="date-select">기존 날짜 선택</label>
         <select id="date-select">
-          <option value="">-- 새 날짜 입력 --</option>
+          <option value="">-- 날짜 선택 --</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="date-input">날짜 입력 (예: 3/5)</label>
-        <input type="text" id="date-input" placeholder="3/5">
-      </div>
-
-      <div class="form-group">
-        <h3>선수별 점수</h3>
+        <div class="player-section-header">
+          <h3>선수별 점수</h3>
+          <button id="save-btn" class="btn-primary">저장</button>
+        </div>
+        <input type="text" id="player-search" placeholder="선수 검색...">
         <div id="player-list"></div>
       </div>
-
-      <button id="save-btn" class="btn-primary">저장</button>
       <p id="save-status" class="hidden"></p>
     </main>
 
-    <footer>
-      <a href="index.html">조회 페이지로</a>
-    </footer>
   </div>
 
   <script src="js/config.js"></script>
