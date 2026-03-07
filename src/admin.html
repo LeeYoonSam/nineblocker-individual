@@ -60,9 +60,16 @@
         <input type="text" id="player-search" placeholder="선수 검색...">
         <div id="player-list"></div>
       </div>
-      <p id="save-status" class="hidden"></p>
     </main>
 
+  </div>
+
+  <!-- 저장 중 로딩 오버레이 -->
+  <div id="save-overlay" class="overlay hidden">
+    <div class="overlay-content">
+      <div class="spinner"></div>
+      <p>저장 중...</p>
+    </div>
   </div>
 
   <script src="js/config.js"></script>

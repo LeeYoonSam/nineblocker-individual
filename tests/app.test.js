@@ -44,7 +44,7 @@ function setupDOM() {
       <input type="text" id="player-search">
       <div id="player-list"></div>
       <button id="save-btn" class="btn-primary" disabled>저장</button>
-      <p id="save-status" class="hidden"></p>
+      <div id="save-overlay" class="overlay hidden"><div class="overlay-content"><div class="spinner"></div><p>저장 중...</p></div></div>
     </div>
   `;
 }
@@ -267,28 +267,69 @@ describe('handleSave', () => {
     window.location = originalLocation;
   });
 
-  it('실패 시 에러 메시지 표시 + 버튼 상태 복원', async () => {
+  it('실패 시 alert 팝업 표시 + 버튼 상태 복원', async () => {
     document.getElementById('date-input').value = '2025-01-04';
     addPlayerInputs([{ name: 'A', number: 1, score: 5 }]);
 
     globalThis.submitScores = vi.fn().mockResolvedValue({ success: false, error: '서버 오류' });
+    const alertMock = vi.spyOn(globalThis, 'alert').mockImplementation(() => {});
 
     await handleSave();
 
-    const status = document.getElementById('save-status');
-    expect(status.textContent).toBe('저장 실패: 서버 오류');
-    expect(status.className).toBe('error');
+    expect(alertMock).toHaveBeenCalledWith('저장 실패: 서버 오류');
     expect(document.getElementById('save-btn').disabled).toBe(false);
+    alertMock.mockRestore();
   });
 
-  it('날짜 미입력 시 에러 메시지 표시 후 리턴', async () => {
+  it('Unauthorized 응답 시 handleSessionExpired 호출', async () => {
+    document.getElementById('date-input').value = '2025-01-04';
+    addPlayerInputs([{ name: 'A', number: 1, score: 5 }]);
+
+    globalThis.submitScores = vi.fn().mockResolvedValue({ success: false, error: 'Unauthorized' });
+    const alertMock = vi.spyOn(globalThis, 'alert').mockImplementation(() => {});
+    let hrefSet = null;
+    const originalLocation = window.location;
+    delete window.location;
+    window.location = {
+      ...originalLocation,
+      get href() { return 'http://localhost/admin.html'; },
+      set href(val) { hrefSet = val; },
+    };
+
+    await handleSave();
+
+    expect(alertMock).toHaveBeenCalledWith('저장 실패: Unauthorized');
+    expect(alertMock).toHaveBeenCalledWith('세션이 만료되었습니다. 다시 로그인해주세요.');
+    expect(hrefSet).toBe('index.html');
+
+    alertMock.mockRestore();
+    window.location = originalLocation;
+  });
+
+  it('네트워크 오류 시 alert 팝업 표시', async () => {
+    document.getElementById('date-input').value = '2025-01-04';
+    addPlayerInputs([{ name: 'A', number: 1, score: 5 }]);
+
+    globalThis.submitScores = vi.fn().mockRejectedValue(new Error('Network error'));
+    const alertMock = vi.spyOn(globalThis, 'alert').mockImplementation(() => {});
+
+    await handleSave();
+
+    expect(alertMock).toHaveBeenCalledWith('저장 실패: 서버와 통신할 수 없습니다.');
+    expect(document.getElementById('save-btn').disabled).toBe(false);
+    alertMock.mockRestore();
+  });
+
+  it('날짜 미입력 시 alert 표시 후 리턴', async () => {
     document.getElementById('date-input').value = '';
     addPlayerInputs([{ name: 'A', number: 1, score: 5 }]);
+    const alertMock = vi.spyOn(globalThis, 'alert').mockImplementation(() => {});
+
     await handleSave();
-    const status = document.getElementById('save-status');
-    expect(status.textContent).toBe('날짜를 입력해주세요.');
-    expect(status.className).toBe('error');
+
+    expect(alertMock).toHaveBeenCalledWith('날짜를 입력해주세요.');
     expect(globalThis.submitScores).not.toHaveBeenCalled();
+    alertMock.mockRestore();
   });
 
   it('세션 만료 시 handleSessionExpired 호출', async () => {

@@ -251,12 +251,13 @@ async function initAdminPage() {
     radio.addEventListener('change', handleEntryModeChange);
   });
 
-  // 세션 체크
-  if (AdminSession.check()) {
+  // 세션 체크: 세션 유효하더라도 cachedPasswordHash가 없으면 재로그인
+  if (AdminSession.check() && cachedPasswordHash) {
     panel.classList.remove('hidden');
     startSessionTimer();
     await loadAdminData();
   } else {
+    AdminSession.clear();
     modal.classList.remove('hidden');
   }
 }
@@ -494,7 +495,7 @@ function isoToSheetDate(isoDate, formatHint) {
 
 async function handleSave() {
   const saveBtn = document.getElementById('save-btn');
-  const status = document.getElementById('save-status');
+  const overlay = document.getElementById('save-overlay');
   const sheetName = document.getElementById('sheet-select').value;
   const dateInput = document.getElementById('date-input');
   const dateSelect = document.getElementById('date-select');
@@ -507,9 +508,7 @@ async function handleSave() {
   } else {
     const isoVal = dateInput.value;
     if (!isoVal) {
-      status.textContent = '날짜를 입력해주세요.';
-      status.className = 'error';
-      status.classList.remove('hidden');
+      alert('날짜를 입력해주세요.');
       return;
     }
     // 기존 날짜 포맷 감지
@@ -525,31 +524,44 @@ async function handleSave() {
   }));
 
   saveBtn.disabled = true;
-  status.textContent = '저장 중...';
-  status.className = '';
-  status.classList.remove('hidden');
+  if (overlay) overlay.classList.remove('hidden');
+
+  function endSaveLoading() {
+    if (overlay) overlay.classList.add('hidden');
+    updateSaveButtonState();
+  }
 
   if (!cachedPasswordHash) {
+    endSaveLoading();
     handleSessionExpired();
     return;
   }
 
-  const result = await submitScores({
-    sheetName,
-    date,
-    entries,
-    passwordHash: cachedPasswordHash,
-  });
+  let result;
+  try {
+    result = await submitScores({
+      sheetName,
+      date,
+      entries,
+      passwordHash: cachedPasswordHash,
+    });
+  } catch (err) {
+    endSaveLoading();
+    alert('저장 실패: 서버와 통신할 수 없습니다.');
+    return;
+  }
+
+  endSaveLoading();
 
   if (result.success) {
     alert(`${result.updated}명의 점수가 저장되었습니다.`);
     window.location.href = 'index.html';
     return;
   } else {
-    status.textContent = `저장 실패: ${result.error}`;
-    status.className = 'error';
+    alert(`저장 실패: ${result.error}`);
+    if (result.error === 'Unauthorized') {
+      handleSessionExpired();
+      return;
+    }
   }
-
-  saveBtn.disabled = false;
-  updateSaveButtonState();
 }
