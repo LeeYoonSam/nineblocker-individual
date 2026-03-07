@@ -5,6 +5,6 @@ const CONFIG = {
   ADMIN_HASH: '__ADMIN_HASH__',
   DEFAULT_SCORE: 3,
   get DEMO_MODE() {
-    return this.SHEET_ID === '__SHEET_ID__';
+    return !this.SHEET_ID || this.SHEET_ID.startsWith('__');
   },
 };
