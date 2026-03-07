@@ -163,7 +163,8 @@ Say "setup omc" or run `/oh-my-claudecode:omc-setup`. Announce major behavior ac
 
 # 프로젝트 지침
 
-## 관리자 페이지 코드 수정 시 테스트 필수
-- `src/js/app.js` 파일을 수정할 때는 반드시 `npm test`를 실행하여 모든 테스트가 통과하는지 확인해야 한다.
+## 코드 수정 시 테스트 필수 실행
+- `src/js/` 디렉터리의 파일(app.js, sheets.js, auth.js 등)을 수정할 때는 반드시 `npm test`를 실행하여 모든 테스트가 통과하는지 확인해야 한다.
 - 테스트가 실패하면 코드 수정을 완료한 것으로 간주하지 않는다.
-- 새로운 기능이나 분기를 추가할 경우 `tests/app.test.js`에 해당 테스트 케이스도 함께 추가해야 한다.
+- 새로운 기능이나 분기를 추가할 경우 해당 테스트 파일에 테스트 케이스도 함께 추가해야 한다.
+- 테스트 파일: `tests/app.test.js` (app.js, 조회/관리자 UI), `tests/sheets.test.js` (sheets.js, 데이터 파싱)
