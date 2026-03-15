@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NineBlockers - 리그</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/glass.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/league.css">
+  <style>
+    /* Chatbot styles */
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      z-index: 90;
+      transition: transform var(--transition);
+    }
+    #chatbot-toggle:hover { transform: scale(1.1); }
+
+    #chatbot-panel {
+      position: fixed;
+      bottom: 5rem;
+      right: 1.5rem;
+      width: 360px;
+      max-width: calc(100vw - 2rem);
+      height: 480px;
+      max-height: calc(100vh - 8rem);
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      z-index: 91;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .chatbot-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .chatbot-header h3 { font-size: 0.95rem; }
+
+    #chatbot-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .chat-system {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 0.5rem;
+    }
+
+    .chat-bubble {
+      padding: 0.5rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      max-width: 85%;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .chat-user {
+      background: var(--primary);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-assistant {
+      background: var(--bg-card);
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+      margin: 0.5rem 0;
+    }
+    .chat-table th, .chat-table td {
+      padding: 0.25rem 0.4rem;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .chat-table th { background: var(--bg); }
+
+    .chatbot-input-area {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    #chatbot-input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.9rem;
+      resize: none;
+    }
+
+    #chatbot-send {
+      padding: 0.5rem 0.75rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="league-page">
+    <header class="v2-header">
+      <div>
+        <h1>NineBlockers</h1>
+        <p class="subtitle" id="league-subtitle"></p>
+      </div>
+      <nav class="v2-header-nav">
+        <a href="index.html" class="nav-link">허브</a>
+        <button id="screenshot-btn" class="btn btn-secondary" style="font-size:0.8rem;">📸 캡처</button>
+        <button id="trades-btn" class="btn btn-secondary trades-btn hidden">트레이드</button>
+      </nav>
+    </header>
+
+    <main class="v2-main">
+      <section id="loading" class="loading">데이터를 불러오는 중...</section>
+
+      <div id="league-content" class="hidden">
+        <div class="league-header-info">
+          <h2 id="league-title"></h2>
+        </div>
+
+        <!-- 시즌 탭 -->
+        <div id="season-tabs" class="segment-control" style="margin-bottom:1rem;"></div>
+
+        <!-- 메타데이터: 팀 순위 -->
+        <div id="standings-container" class="metadata-section hidden"></div>
+
+        <!-- 메타데이터: 어워드 -->
+        <div id="awards-container" class="metadata-section hidden"></div>
+
+        <!-- 필터 바 -->
+        <div class="stats-filter-bar">
+          <div id="team-filters" class="team-filter"></div>
+          <div class="search-wrapper" style="flex:1;max-width:240px;">
+            <input type="text" id="league-search" class="search-input" placeholder="선수 검색...">
+          </div>
+        </div>
+
+        <!-- 리그 통계 테이블 -->
+        <div id="league-table-container"></div>
+      </div>
+    </main>
+
+    <!-- AI 챗봇 -->
+    <button id="chatbot-toggle">💬</button>
+    <div id="chatbot-panel" class="hidden">
+      <div class="chatbot-header">
+        <h3>AI 분석 챗봇</h3>
+        <button id="chatbot-close" class="btn btn-secondary" style="padding:0.2rem 0.5rem;font-size:0.8rem;">✕</button>
+      </div>
+      <div id="chatbot-messages">
+        <div class="chat-system">시즌 데이터 로드 후 질문해 주세요.</div>
+      </div>
+      <div class="chatbot-input-area">
+        <textarea id="chatbot-input" rows="1" placeholder="질문을 입력하세요..."></textarea>
+        <button id="chatbot-send" class="btn btn-primary">전송</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/registry.js"></script>
+  <script src="js/sheets.js"></script>
+  <script src="js/sheets-league.js"></script>
+  <script src="js/renderer-league.js"></script>
+  <script src="js/renderer-metadata.js"></script>
+  <script src="js/screenshot.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/app-league.js"></script>
+</body>
+</html>

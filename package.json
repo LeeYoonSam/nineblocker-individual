@@ -2,7 +2,8 @@
   "name": "nineblocker-individual",
   "private": true,
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "dev": "bash scripts/dev.sh"
   },
   "devDependencies": {
     "vitest": "^3.0.0",

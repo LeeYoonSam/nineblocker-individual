@@ -1,0 +1,213 @@
+/* League Page */
+
+.league-header-info {
+  margin-bottom: 1.5rem;
+}
+
+.league-header-info h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.league-header-info .league-subtitle {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Tabs Section */
+.league-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Stats filter bar */
+.stats-filter-bar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.stats-filter-bar .team-filter {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.team-filter-btn {
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all var(--transition);
+}
+
+.team-filter-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.team-filter-btn:hover:not(.active) {
+  border-color: var(--primary-light);
+  color: var(--text);
+}
+
+/* League stats table overrides */
+.league-table-wrapper {
+  overflow-x: auto;
+  overscroll-behavior-x: none;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.league-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.league-table thead th {
+  background: var(--bg-light);
+  position: sticky;
+  top: 0;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 2px solid var(--primary);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  z-index: 3;
+}
+
+.league-table thead th:hover {
+  background: var(--bg-card);
+}
+
+.league-table thead th .sort-arrow {
+  font-size: 0.65rem;
+  margin-left: 2px;
+  opacity: 0.4;
+}
+
+.league-table thead th.sorted .sort-arrow {
+  opacity: 1;
+  color: var(--primary);
+}
+
+.league-table tbody td {
+  padding: 0.45rem 0.4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.league-table tbody tr:hover td {
+  background: rgba(230, 81, 0, 0.08);
+}
+
+/* Sticky columns for league table */
+.league-table .col-rank {
+  position: sticky;
+  left: 0;
+  background: var(--bg);
+  z-index: 2;
+  width: 36px;
+  min-width: 36px;
+}
+
+.league-table .col-name {
+  position: sticky;
+  left: 36px;
+  background: var(--bg);
+  z-index: 2;
+  width: 64px;
+  min-width: 64px;
+  font-weight: bold;
+}
+
+.league-table .col-team {
+  position: sticky;
+  left: 100px;
+  background: var(--bg);
+  z-index: 2;
+  width: 40px;
+  min-width: 40px;
+}
+
+.league-table .col-total {
+  position: sticky;
+  right: 0;
+  background: var(--bg);
+  z-index: 2;
+  min-width: 50px;
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.league-table thead .col-rank,
+.league-table thead .col-name,
+.league-table thead .col-team,
+.league-table thead .col-total {
+  z-index: 4 !important;
+  background: var(--bg-light) !important;
+}
+
+.league-table .stat-col {
+  min-width: 48px;
+}
+
+.league-table .stat-header-group {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Metadata sections */
+.metadata-section {
+  margin-bottom: 2rem;
+}
+
+/* Trades modal */
+.trades-btn {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.trades-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.trade-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.trade-arrow {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .league-table { font-size: 0.75rem; }
+  .league-table .col-rank { width: 30px; min-width: 30px; }
+  .league-table .col-name { left: 30px; width: 56px; min-width: 56px; }
+  .league-table .col-team { left: 86px; width: 36px; min-width: 36px; }
+  .league-table .stat-col { min-width: 40px; }
+
+  .stats-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NineBlockers - 허브</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/glass.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hub.css">
+</head>
+<body>
+  <div id="hub-page">
+    <header class="v2-header">
+      <div>
+        <h1>NineBlockers</h1>
+        <p class="subtitle">멀티 리그 시스템</p>
+      </div>
+      <nav class="v2-header-nav">
+        <a href="admin.html" class="nav-link">관리자</a>
+      </nav>
+    </header>
+
+    <main class="v2-main">
+      <div class="hub-hero">
+        <h2>리그 선택</h2>
+        <p>참가 중인 리그를 선택해주세요</p>
+      </div>
+
+      <div id="league-grid" class="league-grid">
+        <p class="loading">리그 목록을 불러오는 중...</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/registry.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* Individual Page (개인승점) */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-left: 4px solid var(--primary);
+  cursor: pointer;
+}
+
+.card-gold { border-left-color: var(--gold); }
+.card-gold .rank, .card-gold .name { color: var(--gold); font-weight: bold; }
+.card-silver { border-left-color: var(--silver); }
+.card-silver .rank, .card-silver .name { color: var(--silver); font-weight: bold; }
+.card-bronze { border-left-color: var(--bronze); }
+.card-bronze .rank, .card-bronze .name { color: var(--bronze); font-weight: bold; }
+
+.card .rank {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.card .name { font-size: 1rem; }
+
+/* Matrix Table */
+.table-wrapper {
+  overflow-x: auto;
+  overscroll-behavior-x: none;
+}
+
+#matrix-table {
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+#matrix-table thead th {
+  background: var(--bg-light);
+  position: sticky;
+  top: 0;
+  padding: 0.5rem 0.4rem;
+  border-bottom: 2px solid var(--primary);
+  text-align: center;
+}
+
+#matrix-table tbody td {
+  padding: 0.4rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.sticky-rank {
+  position: sticky;
+  left: 0;
+  background: var(--bg);
+  z-index: 2;
+  width: 40px; min-width: 40px; max-width: 40px;
+}
+
+.sticky-name {
+  position: sticky;
+  left: 40px;
+  background: var(--bg);
+  z-index: 2;
+  width: 64px; min-width: 64px; max-width: 64px;
+}
+
+.sticky-number {
+  position: sticky;
+  left: 104px;
+  background: var(--bg);
+  z-index: 2;
+  width: 36px; min-width: 36px; max-width: 36px;
+}
+
+.sticky-total {
+  position: sticky;
+  right: 0;
+  background: var(--bg);
+  z-index: 2;
+  min-width: 44px;
+}
+
+.sticky-header {
+  z-index: 3 !important;
+  background: var(--bg-light) !important;
+}
+
+.rank-cell { font-weight: bold; color: var(--text-muted); font-size: 0.8rem; }
+.name-cell { text-align: center; font-weight: bold; }
+.number-cell { color: var(--text-muted); font-size: 0.8rem; }
+.date-col { min-width: 45px; }
+.present { color: var(--success); }
+.absent { color: var(--text-muted); }
+.total { font-weight: bold; color: var(--primary); }
+
+#matrix-table tr.highlight td {
+  background: rgba(230, 81, 0, 0.2);
+}
+
+/* Sheet Selector */
+.sheet-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.sheet-selector-btn {
+  background: var(--border);
+  color: var(--text);
+  border: 1px solid var(--primary);
+  padding: 0.5rem 1.2rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.sheet-selector-btn:hover { background: var(--primary-dark); }
+
+.sheet-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  min-width: 140px;
+  z-index: 50;
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.sheet-dropdown-item {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+  text-align: center;
+}
+
+.sheet-dropdown-item:hover { background: var(--primary-dark); }
+.sheet-dropdown-item.active { background: var(--primary); font-weight: bold; }
+
+@media (max-width: 600px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  #matrix-table { font-size: 0.75rem; }
+  .date-col { min-width: 38px; }
+  .sticky-rank { width: 32px; min-width: 32px; max-width: 32px; }
+  .sticky-name { left: 32px; width: 56px; min-width: 56px; max-width: 56px; }
+  .sticky-number { left: 88px; width: 32px; min-width: 32px; max-width: 32px; }
+}

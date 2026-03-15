@@ -1,0 +1,32 @@
+:root {
+  --primary: #e65100;
+  --primary-dark: #bf360c;
+  --primary-light: #ff7d33;
+  --bg: #0a0a1a;
+  --bg-light: #12122a;
+  --bg-card: #1a1a3e;
+  --bg-glass: rgba(255, 255, 255, 0.05);
+  --text: #e8e8e8;
+  --text-muted: #a0a0b0;
+  --text-dim: #6a6a80;
+  --success: #4caf50;
+  --error: #f44336;
+  --warning: #ff9800;
+  --info: #2196f3;
+  --border: #2a2a4a;
+  --border-light: #3a3a5a;
+  --gold: #FFD700;
+  --silver: #C0C0C0;
+  --bronze: #CD7F32;
+  --team-a: #4fc3f7;
+  --team-b: #ff8a65;
+  --team-c: #81c784;
+  --team-d: #ce93d8;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --transition: 0.2s ease;
+}

@@ -1,0 +1,90 @@
+/* Hub Page */
+.hub-hero {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.hub-hero h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.hub-hero p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.league-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.league-card {
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.league-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary);
+  transition: height var(--transition);
+}
+
+.league-card:hover::before {
+  height: 5px;
+}
+
+.league-card .league-icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.league-card .league-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.league-card .league-desc {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.league-card .league-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.league-card-individual {
+  border-left: 4px solid var(--gold);
+}
+
+.league-card-individual::before {
+  background: var(--gold);
+}
+
+.league-card-league {
+  border-left: 4px solid var(--primary);
+}
+
+@media (max-width: 600px) {
+  .hub-hero h2 {
+    font-size: 1.4rem;
+  }
+
+  .league-grid {
+    grid-template-columns: 1fr;
+  }
+}

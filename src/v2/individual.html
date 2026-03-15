@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NineBlockers - 개인 승점제</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/glass.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/individual.css">
+</head>
+<body>
+  <header class="v2-header">
+    <div>
+      <h1>NineBlockers</h1>
+      <p class="subtitle">개인 승점제</p>
+    </div>
+    <nav class="v2-header-nav">
+      <a href="index.html" class="nav-link">허브</a>
+      <a href="admin.html" class="nav-link">관리자</a>
+    </nav>
+  </header>
+
+  <main class="v2-main">
+    <nav id="year-tabs" style="display:flex;justify-content:center;margin-bottom:1rem;">
+      <div class="sheet-selector">
+        <button id="sheet-selector-btn" class="sheet-selector-btn">시트 선택 ▾</button>
+        <div id="sheet-dropdown" class="sheet-dropdown hidden"></div>
+      </div>
+    </nav>
+
+    <section id="loading" class="loading">데이터를 불러오는 중...</section>
+
+    <section id="summary-section" class="hidden">
+      <h2 class="section-title">상위 랭커</h2>
+      <div id="summary-cards" class="card-grid"></div>
+    </section>
+
+    <section id="matrix-section" class="hidden">
+      <h2 class="section-title">개인 기록</h2>
+      <div class="table-wrapper">
+        <table id="matrix-table"></table>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/sheets.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
