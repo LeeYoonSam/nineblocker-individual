@@ -728,6 +728,26 @@ describe('renderSummaryCards', () => {
     expect(cards[3].classList.contains('card-silver')).toBe(false);
     expect(cards[3].classList.contains('card-bronze')).toBe(false);
   });
+
+  it('TOP3는 메달 이모지, 4위 이하는 숫자 랭킹 표시 + 총점 표시', () => {
+    const players = [
+      { name: 'A', number: 1, scores: [10], totalScore: 10, attendCount: 1 },
+      { name: 'B', number: 2, scores: [7], totalScore: 7, attendCount: 1 },
+      { name: 'C', number: 3, scores: [5], totalScore: 5, attendCount: 1 },
+      { name: 'D', number: 4, scores: [3], totalScore: 3, attendCount: 1 },
+    ];
+
+    renderSummaryCards(players);
+
+    const cards = document.querySelectorAll('#summary-cards .card');
+    expect(cards[0].querySelector('.rank').textContent).toBe('\u{1F947}');
+    expect(cards[1].querySelector('.rank').textContent).toBe('\u{1F948}');
+    expect(cards[2].querySelector('.rank').textContent).toBe('\u{1F949}');
+    expect(cards[3].querySelector('.rank').textContent).toBe('4');
+
+    expect(cards[0].querySelector('.score').textContent).toBe('10점');
+    expect(cards[3].querySelector('.score').textContent).toBe('3점');
+  });
 });
 
 describe('renderMatrix', () => {

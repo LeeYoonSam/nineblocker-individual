@@ -2,8 +2,10 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0d">
   <title>NineBlockers - 관리자</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -20,10 +22,15 @@
   <!-- 관리자 폼 -->
   <div id="admin-panel" class="hidden">
     <header>
-      <h1>NineBlockers 관리</h1>
-      <div class="header-actions">
-        <a href="index.html" class="header-nav-link">조회 페이지</a>
-        <button id="logout-btn">로그아웃</button>
+      <div class="header-top">
+        <div class="brand">
+          <h1>NINE<span class="brand-accent">BLOCKERS</span></h1>
+          <p class="subtitle">점수 관리</p>
+        </div>
+        <div class="header-actions">
+          <a href="index.html" class="header-nav-link">조회 페이지</a>
+          <button id="logout-btn">로그아웃</button>
+        </div>
       </div>
     </header>
 

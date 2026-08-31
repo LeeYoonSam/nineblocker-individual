@@ -133,10 +133,14 @@ function renderSummaryCards(players) {
     const medalClass = getMedalClass(p.rank);
     const emoji = getMedalEmoji(p.rank);
 
+    // TOP3는 포디움 카드라 메달 이모지만, 4위 이하는 숫자 랭킹 표시
+    const rankLabel = medalClass ? emoji.trim() : p.rank;
+
     return `
     <div class="card${medalClass}" data-player-name="${p.name}" style="cursor:pointer">
-      <span class="rank">${emoji}${p.rank}위</span>
+      <span class="rank">${rankLabel}</span>
       <strong class="name">${p.name}</strong>
+      <span class="score">${p.totalScore}<small>점</small></span>
     </div>
   `;
   }).join('');
